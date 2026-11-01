@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Fantasy-Hockey-Hub</Name>
+  <Repository>ghcr.io/YOUR_GITHUB_USERNAME/fantasy-hockey-hub:latest</Repository>
+  <Registry>https://github.com/YOUR_GITHUB_USERNAME/fantasy-hockey-hub</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/YOUR_GITHUB_USERNAME/fantasy-hockey-hub/issues</Support>
+  <Project>https://github.com/YOUR_GITHUB_USERNAME/fantasy-hockey-hub</Project>
+  <Overview>
+    A self-hosted, sleek analytics dashboard comparing Yahoo Fantasy Hockey league data to live NHL API statistics.
+    Scans league settings, calculates custom player rankings (ignoring Yahoo's ranks), analyzes category needs, 
+    and suggests high-value waiver pickups and weekly off-night streamers.
+  </Overview>
+  <Category>Tools: MediaApp:Other</Category>
+  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <TemplateURL/>
+  <Icon>https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/hockey.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Description>Self-hosted Yahoo Fantasy Hockey &amp; NHL Analytics Dashboard</Description>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>8080</HostPort>
+        <ContainerPort>8080</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/appdata/fantasy-hockey</HostDir>
+      <ContainerDir>/data</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment>
+    <Variable>
+      <Value>generate-a-strong-secret-key-here</Value>
+      <Name>SECRET_KEY</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>admin</Value>
+      <Name>ADMIN_PASSWORD</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value></Value>
+      <Name>YAHOO_CLIENT_ID</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value></Value>
+      <Name>YAHOO_CLIENT_SECRET</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>http://192.168.1.100:8080/auth/yahoo/callback</Value>
+      <Name>YAHOO_REDIRECT_URI</Name>
+      <Mode/>
+    </Variable>
+  </Environment>
+  <Config Name="WebUI Port" Target="8080" Default="8080" Mode="tcp" Description="Port to access the web dashboard" Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="App Data Storage" Target="/data" Default="/mnt/user/appdata/fantasy-hockey" Mode="rw" Description="Persistent directory for SQLite database, tokens, and cached stats" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/fantasy-hockey</Config>
+  <Config Name="Admin Password" Target="ADMIN_PASSWORD" Default="admin" Mode="" Description="Password to log into your dashboard" Type="Variable" Display="always" Required="true" Mask="true">admin</Config>
+  <Config Name="Secret Key" Target="SECRET_KEY" Default="change_this_to_something_secure" Mode="" Description="Random string for session cookie encryption" Type="Variable" Display="advanced" Required="true" Mask="true">change_this_to_something_secure</Config>
+  <Config Name="Yahoo Client ID" Target="YAHOO_CLIENT_ID" Default="" Mode="" Description="Client ID from developer.yahoo.com" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Yahoo Client Secret" Target="YAHOO_CLIENT_SECRET" Default="" Mode="" Description="Client Secret from developer.yahoo.com" Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="Yahoo Redirect URI" Target="YAHOO_REDIRECT_URI" Default="http://YOUR-UNRAID-IP:8080/auth/yahoo/callback" Mode="" Description="Full callback URL configured in Yahoo App" Type="Variable" Display="always" Required="false" Mask="false">http://YOUR-UNRAID-IP:8080/auth/yahoo/callback</Config>
+</Container>

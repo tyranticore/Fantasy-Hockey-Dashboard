@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PuckMetrics - Fantasy Hockey Analytics{% endblock %}</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ice: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        },
+                        rink: {
+                            800: '#0f172a',
+                            900: '#090d16',
+                            950: '#04070d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+        .glow-accent {
+            box-shadow: 0 0 20px -5px rgba(14, 165, 233, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-rink-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-ice-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-rink-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-ice-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-ice-500/20">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                        PuckMetrics
+                        <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-ice-500/10 text-ice-400 border border-ice-500/20">Unraid Edition</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Yahoo Fantasy Hockey &amp; NHL Edge Optimizer</p>
+                </div>
+            </div>
+
+            <!-- Global Status and Controls -->
+            <div class="flex items-center space-x-4">
+                <!-- Mode Badge -->
+                <div id="league-mode-badge" class="hidden sm:flex items-center space-x-2 text-xs px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="font-medium" id="league-type-label">H2H Categories</span>
+                </div>
+
+                <!-- Yahoo Sync Status -->
+                <div id="yahoo-status-pill" class="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 cursor-pointer hover:bg-slate-800 transition" onclick="switchTab('settings')">
+                    <i data-lucide="link" class="w-3.5 h-3.5 text-ice-400"></i>
+                    <span id="yahoo-sync-text">Demo Data</span>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex space-x-1">
+                    <button onclick="switchTab('matchup')" id="tab-btn-matchup" class="tab-button px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-white bg-slate-800 border border-slate-700">
+                        Matchup
+                    </button>
+                    <button onclick="switchTab('waivers')" id="tab-btn-waivers" class="tab-button px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                        Waiver Optimizer
+                    </button>
+                    <button onclick="switchTab('schedule')" id="tab-btn-schedule" class="tab-button px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                        Schedule Matrix
+                    </button>
+                    <button onclick="switchTab('settings')" id="tab-btn-settings" class="tab-button px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                        Settings
+                    </button>
+                </nav>
+
+                <!-- Logout -->
+                <a href="/logout" title="Sign Out" class="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile sub-nav -->
+        <div class="flex md:hidden border-t border-slate-800/80 px-2 py-1.5 bg-rink-900/50 justify-around text-xs">
+            <button onclick="switchTab('matchup')" class="px-2 py-1 text-slate-300 font-medium">Matchup</button>
+            <button onclick="switchTab('waivers')" class="px-2 py-1 text-slate-300 font-medium">Waivers</button>
+            <button onclick="switchTab('schedule')" class="px-2 py-1 text-slate-300 font-medium">Schedule</button>
+            <button onclick="switchTab('settings')" class="px-2 py-1 text-slate-300 font-medium">Settings</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-rink-900/40 py-4 text-center text-xs text-slate-500">
+        <p>PuckMetrics &bull; Open-source Fantasy Hockey Analytics &bull; Designed for Unraid &amp; Docker &bull; Zero Yahoo Rank Bias</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

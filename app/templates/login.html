@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - PuckMetrics{% endblock %}
+
+{% block content %}
+<div class="min-h-[75vh] flex items-center justify-center">
+    <div class="w-full max-w-md p-8 rounded-2xl bg-rink-900/80 border border-slate-800 shadow-2xl backdrop-blur-sm glow-accent">
+        <div class="text-center mb-8">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-ice-600 to-cyan-400 flex items-center justify-center text-white shadow-xl shadow-ice-500/30">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Access PuckMetrics</h2>
+            <p class="text-sm text-slate-400 mt-1">Authenticate to access your Fantasy Hockey Hub</p>
+        </div>
+
+        {% if error %}
+        <div class="mb-5 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm flex items-center gap-2">
+            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+
+        <form action="/login" method="POST" class="space-y-5">
+            <div>
+                <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                    Master Password
+                </label>
+                <div class="relative">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="Enter your dashboard password"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-ice-500/50 focus:border-ice-500 transition text-sm"
+                        autofocus
+                    >
+                </div>
+                <p class="text-[11px] text-slate-500 mt-2">
+                    Configured via <code>ADMIN_PASSWORD</code> in your Unraid template / Docker environment.
+                </p>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-ice-600 to-cyan-500 hover:from-ice-500 hover:to-cyan-400 text-white font-medium text-sm shadow-lg shadow-ice-500/25 transition duration-150 flex items-center justify-center gap-2"
+            >
+                <span>Unlock Dashboard</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-slate-800/80 text-center text-xs text-slate-400">
+            <p>Self-hosted &bull; Private &bull; Open Source</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
