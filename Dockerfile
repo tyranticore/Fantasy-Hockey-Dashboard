@@ -7,7 +7,7 @@ LABEL description="Self-hosted Yahoo Fantasy Hockey & NHL Analytics Dashboard"
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     DATA_DIR=/data \
-    PORT=8080 \
+    PORT=8585 \
     HOST=0.0.0.0
 
 WORKDIR /app
@@ -29,7 +29,7 @@ COPY app /app/app
 RUN mkdir -p /data
 
 # Expose standard web port
-EXPOSE 8080
+EXPOSE 8585
 
 # Run FastAPI via Uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8585"]

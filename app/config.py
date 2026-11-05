@@ -13,7 +13,7 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
 # Yahoo Fantasy OAuth
 YAHOO_CLIENT_ID = os.getenv("YAHOO_CLIENT_ID", "")
 YAHOO_CLIENT_SECRET = os.getenv("YAHOO_CLIENT_SECRET", "")
-YAHOO_REDIRECT_URI = os.getenv("YAHOO_REDIRECT_URI", "http://localhost:8080/auth/yahoo/callback")
+YAHOO_REDIRECT_URI = os.getenv("YAHOO_REDIRECT_URI", "http://localhost:8585/auth/yahoo/callback")
 
 # Database
 DB_PATH = DATA_DIR / "fantasy_hockey.db"

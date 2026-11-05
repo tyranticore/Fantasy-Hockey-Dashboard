@@ -62,7 +62,7 @@ nano .env
 docker-compose up -d
 ```
 
-Open your browser at **`http://localhost:8080`** (or your server's IP).
+Open your browser at **`http://localhost:8585`** (or your server's IP).
 
 ---
 
@@ -76,7 +76,7 @@ Open your browser at **`http://localhost:8080`** (or your server's IP).
    ```
 3. Navigate to **Docker** -> **Add Container** -> select the **Fantasy-Hockey-Hub** template from the user dropdown.
 4. Verify your paths:
-   - **Host Port**: `8080` (or your choice)
+   - **Host Port**: `8585` (or your choice)
    - **Appdata Path**: `/mnt/user/appdata/fantasy-hockey` mapped to `/data`
    - **Admin Password**: Choose your secure password
 5. Click **Apply**.
@@ -91,7 +91,7 @@ PuckMetrics can run in **Demo Mode** out of the box with simulated data. To link
 2. Create an App with the following settings:
    - **Application Name**: `PuckMetrics`
    - **Application Type**: `Web Application`
-   - **Redirect URI**: `http://<YOUR-UNRAID-IP>:8080/auth/yahoo/callback`
+   - **Redirect URI**: `http://<YOUR-UNRAID-IP>:8585/auth/yahoo/callback`
    - **API Permissions**: Check **Fantasy Sports** (`fspt-r`).
 3. Copy your **Client ID** and **Client Secret**.
 4. In PuckMetrics, open the **Settings** tab, enter your credentials, and click **Authorize Yahoo Account**.
@@ -128,7 +128,7 @@ Off-nights (days with 6 or fewer games) receive higher weighting because players
 | `DATA_DIR` | Location of SQLite DB and tokens | `/data` |
 | `YAHOO_CLIENT_ID` | Yahoo Developer App Client ID | `""` |
 | `YAHOO_CLIENT_SECRET` | Yahoo Developer App Client Secret | `""` |
-| `YAHOO_REDIRECT_URI` | Yahoo OAuth callback URL | `http://localhost:8080/auth/yahoo/callback` |
+| `YAHOO_REDIRECT_URI` | Yahoo OAuth callback URL | `http://localhost:8585/auth/yahoo/callback` |
 | `DEV_MOCK_DATA` | Enable rich demo data if Yahoo is not connected | `true` |
 
 ---
